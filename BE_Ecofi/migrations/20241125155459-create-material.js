@@ -1,5 +1,7 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
+
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Materials', {
@@ -10,24 +12,32 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       Tipo_Material: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       Bicolones_Material: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       Descripcion_Material: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       Cantidad: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+
       },
       updatedAt: {
+        type: Sequelize.DATE, 
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.literal( 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+
       }
     });
   },
