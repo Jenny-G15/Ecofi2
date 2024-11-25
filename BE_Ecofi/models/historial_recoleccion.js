@@ -1,25 +1,43 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const { Model, DataTypes} = require('sequelize');
+
+
+module.exports = (sequelize) => {
+
   class Historial_Recoleccion extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
-      // define association here
+      Historial_Recoleccion.hasMany(models.Formulario, {
+        foreignKey: 'ID_Formulario',
+        as: 'formularioHRecoleccion',
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE',  
+      });
     }
   }
+
   Historial_Recoleccion.init({
-    ID_Formulario: DataTypes.INTEGER,
-    Fecha_Hrecoleccion: DataTypes.INTEGER,
-    Cantidad_Hrecoleccion: DataTypes.INTEGER
+    ID_Formulario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Formularios',
+        key: 'id'
+      }
+    },
+    Fecha_Hrecoleccion: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    Cantidad_Hrecoleccion: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'Historial_Recoleccion',
+    tableName:'Historial_Recoleccions',
+    timestamps: true,
   });
   return Historial_Recoleccion;
 };

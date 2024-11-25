@@ -1,23 +1,36 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const {Model, DataTypes} = require('sequelize');
+
+
+module.exports = (sequelize) => {
+
   class Historial_Canjes extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
-      // define association here
+      Historial_Canjes.hasMany(models.Canjes, {
+        foreignKey: 'ID_Canje',
+        as: 'CanjesHistorialCanje',
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE',  
+      });
     }
   }
+
+
   Historial_Canjes.init({
-    ID_Canje: DataTypes.INTEGER
+    ID_Canje: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Canjes',
+        key: 'id'
+      }
+    },
   }, {
     sequelize,
     modelName: 'Historial_Canjes',
+    tableName: 'Historial_Canjes',
+    timestamps: true,
   });
   return Historial_Canjes;
 };

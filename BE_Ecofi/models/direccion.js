@@ -1,24 +1,40 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const { Model, DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
+  
   class Direccion extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
+    
+    
     static associate(models) {
-      // define association here
+
+      // Relacionar Direccion con REcofi
+      Direccion.hasMany(models.Recofi, {
+        foreignKey: 'ID_Direccion',
+        as: 'recofis',
+      });
     }
   }
-  Direccion.init({
-    Canton: DataTypes.STRING,
-    Distrito: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Direccion',
-  });
+
+  Direccion.init(
+    {
+      Canton: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Distrito: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Direccion',
+      tableName: 'Direccions',
+      timestamps: false, 
+    }
+  );
+
   return Direccion;
 };

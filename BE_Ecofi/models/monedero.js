@@ -1,24 +1,38 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const {Model, DataTypes } = require('sequelize');
+
+
+module.exports = (sequelize) => {
+
   class Monedero extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
-      // define association here
+      Monedero.belongsTo(models.Usuario, {
+        foreignKey: 'ID_Usuario',
+        as: 'monederousuario',
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE',  
+      });
     }
   }
   Monedero.init({
-    ID_Usuario: DataTypes.INTEGER,
-    Saldo_Actual: DataTypes.INTEGER
+    ID_Usuario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Usuarios',
+        key: 'id'
+      }
+    },
+    Saldo_Actual: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'Monedero',
+    tableName: 'monederos',
+    timestamps: true,
   });
   return Monedero;
 };

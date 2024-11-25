@@ -1,25 +1,62 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+
+const { Model, DataTypes} = require('sequelize');
+
+module.exports = (sequelize) => {
+
   class Canjes extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
+    
     static associate(models) {
-      // define association here
+      Canjes.belongsTo(models.Usuario, {
+        foreignKey: 'ID_Usuario', 
+        as: 'usuarioCanjes', 
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      });
+      
+      Canjes.belongsTo(models.Producto, {
+        foreignKey: 'ID_Productos', 
+        as: 'productosCanjes',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      });
+
+      Canjes.belongsTo(models.Historial_Canjes, {
+        foreignKey: 'ID_Canje',
+        as: 'historialCanje',
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE',  
+      });
+      
     }
   }
   Canjes.init({
-    ID_Usuario: DataTypes.INTEGER,
-    ID_Producto: DataTypes.INTEGER,
-    Fecha_Canje: DataTypes.DATE
+    ID_Usuario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Usuarios',
+        key: 'id'
+      }
+    },
+    ID_Producto: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Productos',
+        key: 'id'
+      }
+    },
+    Fecha_Canje: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'Canjes',
+    tableName: 'Canjes',
+    timestamps: true,
   });
   return Canjes;
 };

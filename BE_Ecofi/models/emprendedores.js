@@ -1,29 +1,83 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Emprendedores extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+const {Model, DataTypes} = require('sequelize');
+
+
+module.exports = (sequelize) => {
+
+  class Emprendedor extends Model {
+
     static associate(models) {
-      // define association here
+      Emprendedor.hasMany(models.Producto, {
+        foreignKey: 'ID_Emprendedor',
+        as: 'emprendedorProducto',
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE',  
+      });
     }
   }
-  Emprendedores.init({
-    Nombre_Emprendedor: DataTypes.STRING,
-    Descripcion: DataTypes.STRING,
-    Nombre_Contacto: DataTypes.STRING,
-    Producto_Ofrecido: DataTypes.STRING,
-    Correo_Emprendedor: DataTypes.STRING,
-    Telefono_Empresa: DataTypes.INTEGER,
-    Direccion_Emprendedor: DataTypes.STRING
+  Emprendedor.init({
+    Nombre_Emprendedor: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Descripcion: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Nombre_Contacto: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Producto_Ofrecido: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Correo_Emprendedor: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Telefono_Empresa: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    Direccion_Exacta: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'Direccions',
+        key: 'id'
+      }
+    },
   }, {
     sequelize,
-    modelName: 'Emprendedores',
+    modelName: 'Emprendedor',
+    tableName: 'Emprendedors',
+    timestamps: true,
   });
-  return Emprendedores;
+  return Emprendedor;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
