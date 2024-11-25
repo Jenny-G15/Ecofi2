@@ -9,7 +9,7 @@ import { FaWhatsapp } from "react-icons/fa";
 const Footer = () => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
+    email: '', 
     message: ''
   });
 
