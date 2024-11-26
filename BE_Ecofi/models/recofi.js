@@ -1,28 +1,83 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+
+const { Model, DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
   class Recofi extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
-      // define association here
+      Recofi.belongsTo(models.Direccion, {
+        foreignKey: 'ID_Direccion', 
+        as: 'direccionRecofi', 
+        onUpdate: 'CASCADE', 
+        onDelete: 'CASCADE',
+      });
+
+      Recofi.belongsTo(models.Material, {
+        foreignKey: 'ID_Material',
+        as: 'materialRecofi',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE', 
+      });
+
+      Recofi.hasMany(models.Formulario, {
+        foreignKey: 'ID_Recofi',
+        as: 'formularioRecofi',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',  
+      });
     }
   }
+
   Recofi.init({
-    ID_Direccion: DataTypes.INTEGER,
-    ID_Material: DataTypes.INTEGER,
-    Horario: DataTypes.TIME,
-    Latitud: DataTypes.DECIMAL,
-    Longitud: DataTypes.DECIMAL,
-    Direccion: DataTypes.STRING
+    ID_Direccion: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Direccions',
+        key: 'id',
+      }
+    },
+    ID_Material: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Materials',
+        key: 'id',
+      }
+    },
+    Horario: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
+    Latitud: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    Longitud: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    Direccion_Recofi: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
     sequelize,
     modelName: 'Recofi',
+    tableName: 'Recofis',
+    timestamps: true,
   });
+
   return Recofi;
 };
+
+
+
+
+
+
+
+
+
+

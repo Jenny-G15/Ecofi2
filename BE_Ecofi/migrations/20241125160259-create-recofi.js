@@ -1,6 +1,9 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
+
+
 module.exports = {
+
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Recofis', {
       id: {
@@ -10,30 +13,52 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       ID_Direccion: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Direccions",
+          key: "id"
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+
       },
       ID_Material: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Materials",
+          key: "id"
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       Horario: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
+        allowNull: false
       },
       Latitud: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
+        allowNull: false
       },
       Longitud: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
+        allowNull: false
       },
-      Direccion: {
-        type: Sequelize.STRING
+      Direccion_Recofi: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+
       },
       updatedAt: {
+        type: Sequelize.DATE, 
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.literal( 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       }
     });
   },

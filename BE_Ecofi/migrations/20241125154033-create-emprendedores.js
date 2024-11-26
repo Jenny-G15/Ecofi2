@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Emprendedores', {
+    await queryInterface.createTable('Emprendedors', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,20 +27,24 @@ module.exports = {
       Telefono_Empresa: {
         type: Sequelize.INTEGER
       },
-      Direccion_Emprendedor: {
+      Direccion_Exacta: {
         type: Sequelize.STRING
       },
+      
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal( 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Emprendedores');
+    await queryInterface.dropTable('Emprendedors');
   }
 };
